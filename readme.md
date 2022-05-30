@@ -11,7 +11,7 @@
 ### 服务端示例
 
 ```python
-from gorpc import RPCClient
+from gorpc import RPCServer
 
 s = RPCServer()
 
