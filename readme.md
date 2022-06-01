@@ -14,7 +14,7 @@
 
 模块|介绍|文档地址
 ----|----|----
-RPC|一个简单的远程过程调用实现|未知的
+RPC|一个简单的远程过程调用实现|[文档](https://github.com/AyalaKaguya/Ayn-Socket-Framework/blob/main/docs/rpc.md)
 
 ## 贡献 | Contribute
 
