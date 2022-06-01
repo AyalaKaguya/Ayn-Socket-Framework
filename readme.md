@@ -15,6 +15,8 @@
 模块|介绍|文档地址
 ----|----|----
 RPC|一个简单的远程过程调用实现|[文档](https://github.com/AyalaKaguya/Ayn-Socket-Framework/blob/main/docs/rpc.md)
+Remote Control|一个简单的（很破的，未适配框架）远程控制|暂无
+Sockets|一个简单的组播实现（未适配框架）|[文档](https://github.com/AyalaKaguya/Ayn-Socket-Framework/blob/main/docs/sockets.md)
 
 ## 贡献 | Contribute
 

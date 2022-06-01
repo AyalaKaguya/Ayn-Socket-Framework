@@ -2,7 +2,6 @@ import socket
 import threading
 from typing import overload
 
-
 class StringTCPCilent:
     '''通过字符串来传输信息的基本客户端'''
 
