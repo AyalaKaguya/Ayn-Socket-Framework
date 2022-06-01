@@ -18,7 +18,7 @@ RPC|一个简单的远程过程调用实现|[文档](https://github.com/AyalaKag
 
 ## 贡献 | Contribute
 
-[pull requests](https://github.com/AyalaKaguya/goRPC/pulls)
+[pull requests](https://github.com/AyalaKaguya/Ayn-Socket-Framework/pulls)
 
 ## 许可 | License
 
