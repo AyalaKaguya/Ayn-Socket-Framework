@@ -1,11 +1,9 @@
-import cmd
-import string
 import subprocess
 import sys
+import os
+from time import sleep
 
-from .string_tcp_core import ThreadStringTCPServer
-
-IDENTCHARS = string.ascii_letters + string.digits + '_'
+from .string_tcp_core import ThreadStringTCPServer, ThreadStringTCPCilent
 
 
 def run_cmd(cmd_string, timeout=8):
@@ -38,15 +36,54 @@ def run_cmd(cmd_string, timeout=8):
     return code, msg
 
 
-class BaseRCHander(cmd):
-    pass
+class BaseRCHander():
+    def inputLine(self, line: str) -> str:
+        try:
+            cmd = line
+            cmdl = cmd.split(" ")
+            if cmdl[0] == "cd":
+                cdd = cmd[3:]
+                if cdd:
+                    try:
+                        os.chdir(cdd)
+                    except Exception as ex:
+                        return "RC [ERROR] : " + str(ex)
+                return os.getcwd()
+            _, result = run_cmd(cmd)
+            return result
+        except Exception as ex:
+            return ex
+
 
 class BaseRCServer(ThreadStringTCPServer):
+    def __init__(self, RCHander: BaseRCHander = BaseRCHander):
+        super().__init__()
+        self.RCHander = RCHander
+        self.MULTI_PACKET_SEND = False
+
+    def onConnectionEnter(self, address: str) -> BaseRCHander:
+        return self.RCHander()
+
+    def onConnectionRequest(self, request_body: str, address: str, payloads: BaseRCHander) -> str:
+        return payloads.inputLine(request_body)
+
+
+class BaseRCClient(ThreadStringTCPCilent):
     def __init__(self):
         super().__init__()
-        self.identchars = IDENTCHARS
+        self.MULTI_PACKET_SEND = False
 
-    def onConnectionRequest(self, request_body: str, address: str) -> str:
-        return super().onConnectionRequest(request_body, address)
+    def run(self):
+        self.loop_start()
+        while True:
+            c = input()
+            if not c:
+                continue
+            self.send(c)
 
+    def onMessageReceived(self, respond_body: str) -> None:
+        print(respond_body,end='')
 
+    def send(self, data: str) -> None:
+        super().send(data)
+        sleep(0.2)
