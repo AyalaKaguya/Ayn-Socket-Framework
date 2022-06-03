@@ -2,6 +2,7 @@ import socket
 import threading
 from typing import overload
 
+
 class StringTCPCilent:
     '''通过字符串来传输信息的基本客户端'''
 
@@ -65,13 +66,13 @@ class StringTCPServer:
 
     def conn(self, client_socket: socket.socket, address: str):
         '''连接处理函数，进入客户端接收应答循环'''
-        self.onConnectionEnter(address)
+        payloads = self.onConnectionEnter(address)
         while True:
             try:
                 req = StringTCPServer.recv(client_socket)
                 if req == 'EXIT':
                     break
-                res = self.onConnectionRequest(req, address)
+                res = self.onConnectionRequest(req, address, payloads)
                 StringTCPServer.send(client_socket, res)
             except Exception as ex:
                 self.onConnectionError(ex, address)
@@ -103,10 +104,11 @@ class StringTCPServer:
             res_buff += res.decode('utf-8')
         return res_buff
 
-    def onConnectionEnter(self, address: str) -> None:
+    def onConnectionEnter(self, address: str) -> object:
         print("Connection from: {}".format(address))
+        return None
 
-    def onConnectionRequest(self, request_body: str, address: str) -> str:
+    def onConnectionRequest(self, request_body: str, address: str, payloads: object) -> str:
         return f"Hello {request_body} from {address}!"
 
     def onConnectionError(self, ex: Exception, address: str) -> None:

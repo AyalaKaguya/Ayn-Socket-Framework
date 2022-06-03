@@ -33,7 +33,7 @@ class BaseRPCServer(ThreadStringTCPServer):
         super().__init__()
         self.funs = {}
 
-    def onConnectionRequest(self, data: str, address: str) -> str:
+    def onConnectionRequest(self, data: str, address: str, payloads: None) -> str:
         '''解析数据，调用对应的方法变将该方法执行结果返回'''
         json_data = json.loads(data)
         method_name = json_data['fn']
@@ -58,4 +58,3 @@ class BaseRPCServer(ThreadStringTCPServer):
         if name is None:
             name = function.__name__
         self.funs[name] = function
-
